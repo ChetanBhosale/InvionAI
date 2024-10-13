@@ -1,22 +1,17 @@
 // 'use client'
 
-import { authConfig } from '@/lib/auth'
-import { getServerSession } from 'next-auth'
-import { useSession } from 'next-auth/react'
-// import { getServerSession } from 'next-auth'
+import { loginIsRequiredServer } from '@/lib/auth';
 import React from 'react'
 
-const page = async () => {
-    // const session = await getServerSession(authConfig)
-    // const { data: session, status } = useSession()
+const Page = async () => {
 
-    const session = await getServerSession(authConfig)
+    const session = await loginIsRequiredServer()
 
-    console.log(session);
-    // console.log(status);
     return (
-        <div>page</div>
+        <div className='w-full h-screen'>
+            <p className='font-mono py-3 px-4 font-bold text-4xl'>Welcome <span className='text-color font-extrabold font-mono'>{session?.user?.name}</span></p>
+        </div>
     )
 }
 
-export default page
+export default Page;

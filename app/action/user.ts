@@ -3,35 +3,39 @@ import { Response } from "@/lib/response";
 import { IUser } from "@/types/types";
 
 
-export const getUser = async(email:string) => {
+export const getUser = async (email: string) => {
+    console.log('work till here');
     const user = await prisma.user.findUnique({
-        where : {
-            email : email
-        }
+      where: {
+        email: email,
+      },
+    });
+  
+    if (!user) {
+      return {
+        message: "User does not exist",
+        status: false,
+        data: {},
+      };
     }
-    )
-
-    if(!user){
-        return {
-            message : "user not exists",
-            status : false,
-            data : {}
-        }
-    }
-
+  
     return {
-        message  : 'user exists',
-        status : true,
-        data : user
-    }
-}
-
-export const createUser = async(user:IUser) => {
+      message: "User exists",
+      status: true,
+      data: user,
+    };
+  };
+  
+  export const createUser = async (user: IUser) => {
+    console.log('work till here 2');
     const userData = await prisma.user.create({
-        data : {
-            ...user
-        }
-    })
-
-    return Response(true,'user created successfully!',userData)
-}
+      data: {
+        email: user.email,
+        name: user.name,  
+        image: user.image,
+      },
+    });
+  
+    return Response(true, "User created successfully!", userData);
+  };
+  
